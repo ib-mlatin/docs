@@ -584,9 +584,21 @@ Third party password managers can also be integrated. The only requirement is th
 password in plain text somehow. If not, additional operations might be required to get the password as
 plain text and inject it in the listener.
 
-As an example:
+Example using "Vault" as secrets store
 
-* You can use "pass" as a password manager.
+* See https://learn.hashicorp.com/collections/vault/getting-started
+on how to setup Vault as your secrets store. Then use something like the following
+
+[source,console,subs="attributes+"]
+----
+vault kv get -field=password secret/samba | {occ-command-example-prefix} wnd:listen <host> <share> <username> --password-file=-
+----
+
+Use Vault's ACLs to limit access of the token. Destroy the token after starting the service
+during boot with systemd.
+
+Example using "pass"
+
 * You can go through http://xmodulo.com/manage-passwords-command-line-linux.html
 to setup the keyring for whoever will fetch the password (probably root) and then use something like the following
 
